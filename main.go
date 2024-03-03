@@ -43,6 +43,7 @@ func main() {
 
 	if len(os.Args) < 2 {
 		printUsage()
+		return
 	}
 
 	switch os.Args[1] {
@@ -59,14 +60,29 @@ func main() {
 	case "delete":
 		if len(os.Args) < 3 {
 			fmt.Println("Debes proporcionar un ID para eliminar")
+			return
 		}
 		id, err := strconv.Atoi(os.Args[2])
 		if err != nil {
-			fmt.Println("el id debe ser un numero")
+			fmt.Println("El id debe ser un número")
 			return
 		}
 		tasks = task.DeleteTask(tasks, id)
 		task.SaveTasks(file, tasks)
+	case "complete":
+		if len(os.Args) < 3 {
+			fmt.Println("Debes proporcionar un ID para completar")
+			return
+		}
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("El id debe ser un número")
+			return
+		}
+		tasks = task.CompleteTask(tasks, id)
+		task.SaveTasks(file, tasks)
+	default:
+		printUsage()
 	}
 }
 

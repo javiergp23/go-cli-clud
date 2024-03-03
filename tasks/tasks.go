@@ -47,6 +47,16 @@ func DeleteTask(tasks []Task, id int) []Task {
 	return tasks
 }
 
+func CompleteTask(tasks []Task, id int) []Task {
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Complete = true
+			break
+		}
+	}
+	return tasks
+}
+
 func SaveTasks(file *os.File, tasks []Task) {
 	bytes, err := json.Marshal(tasks)
 	if err != nil {
