@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	task "github.com/javiergp23/go-cli-crud/tasks"
@@ -52,6 +53,20 @@ func main() {
 		fmt.Println("Cual es tu tarea?")
 		name, _ := reader.ReadString('\n')
 		name = strings.TrimSpace(name)
+
+		tasks = task.AddTask(tasks, name)
+		task.SaveTasks(file, tasks)
+	case "delete":
+		if len(os.Args) < 3 {
+			fmt.Println("Debes proporcionar un ID para eliminar")
+		}
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("el id debe ser un numero")
+			return
+		}
+		tasks = task.DeleteTask(tasks, id)
+		task.SaveTasks(file, tasks)
 	}
 }
 
